@@ -892,5 +892,43 @@ window.BTS_SIO = {
     }
 };
 
+document.addEventListener("DOMContentLoaded", function() {
+    const cookieBanner = document.getElementById("cookie-banner");
+    const acceptBtn = document.getElementById("accept-cookies");
+    const rejectBtn = document.getElementById("reject-cookies");
+  
+    // 1. Vérifie si l'utilisateur a déjà donné ou refusé son consentement
+    if (!localStorage.getItem("cookieConsent")) {
+      // Si aucun choix n'est fait, on affiche la bannière
+      cookieBanner.classList.remove("hidden");
+    } else if (localStorage.getItem("cookieConsent") === "accepted") {
+      // Si déjà accepté, on charge les scripts d'analyse (ex: Google Analytics)
+      loadAnalytics();
+    }
+  
+    // 2. Action au clic sur "Tout accepter"
+    acceptBtn.addEventListener("click", function() {
+      localStorage.setItem("cookieConsent", "accepted"); // Sauvegarde le choix
+      cookieBanner.classList.add("hidden"); // Cache la bannière
+      loadAnalytics(); // Lance les cookies de suivi
+      console.log("Les cookies ont été acceptés.");
+    });
+  
+    // 3. Action au clic sur "Tout refuser"
+    rejectBtn.addEventListener("click", function() {
+      localStorage.setItem("cookieConsent", "rejected"); // Sauvegarde le refus
+      cookieBanner.classList.add("hidden"); // Cache la bannière
+      console.log("Les cookies ont été refusés.");
+    });
+  });
+  
+  // Fonction pour charger les scripts qui nécessitent un consentement (Analytics, etc.)
+  function loadAnalytics() {
+    console.log("Chargement des scripts Google Analytics / Matomo...");
+    // C'est ici que tu inséreras la balise <script> de ton outil d'analyse
+    // Par exemple, en créant un élément script dynamiquement et en l'ajoutant au head.
+  }
+  
+
 console.log('%c🎓 BTS SIO - Lycée Saint-Louis', 'font-size: 20px; font-weight: bold; color: #2563eb;');
 console.log('%cVersion: ' + window.BTS_SIO.version, 'color: #10b981;');
